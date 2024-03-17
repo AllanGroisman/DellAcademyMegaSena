@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Front-end para Controller de Sorteio com Thymeleaf</title>
+    <style>
+        /* Estilização básica */
+        body { font-family: Arial, sans-serif; }
+        #terminal { background: #000; color: #fff; padding: 20px; height: 300px; overflow-y: scroll; }
+        button, a { margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Controller de Sorteio</h1>
+
+    <!-- Usando links para as ações -->
+    <a th:href="@{/}">Tela Inicial</a>
+    <a th:href="@{/criarsorteio}">Criar Sorteio</a>
+    <a th:href="@{/novaaposta/{cpf}(cpf='12345678900')}">Nova Aposta</a> <!-- Exemplo de CPF -->
+    <a th:href="@{/listarapostas}">Listar Apostas</a>
+    <a th:href="@{/sortearresultado}">Sortear Resultado</a>
+    <a th:href="@{/apuracao}">Apuração</a>
+
+    <!-- Terminal para mostrar os resultados -->
+    <!-- Aqui você pode precisar ajustar para mostrar os resultados dinamicamente com Thymeleaf -->
+    <div id="terminal"></div>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.allangroisman.Dominio.Servicos;
+package com.allangroisman.Dominio.Funcoes;
 
 import java.util.Random;
 import java.util.Set;

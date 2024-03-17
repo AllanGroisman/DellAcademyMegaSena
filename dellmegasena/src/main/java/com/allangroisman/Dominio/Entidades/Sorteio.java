@@ -7,19 +7,21 @@ import java.util.Set;
 
 public class Sorteio {
 
-    private long id; //id unico do sorteio
-    private LocalDateTime dataCriacao; //data em que o sorteio foi criado
-    private ArrayList<Long> listaApostas = new ArrayList<>(); //lista de todos os ids das apostas feitas neste sorteio
-    private Set<Integer> numerosSorteados = new HashSet<>(); //numeros sorteados, pode ter os 5 iniciais + 25 outros
-    private Set<Long> ganhadores = new HashSet<>(); //id dos ganhadores, se não tiver, ninguem ganhou
-   
-    public Sorteio(long id, LocalDateTime dataCriacao) {
-        this.id = id;
-        this.dataCriacao = dataCriacao;
+    private static long countId = 0;
+    private long id; // id unico do sorteio
+    private LocalDateTime dataCriacao; // data em que o sorteio foi criado
+    private ArrayList<Aposta> listaApostas = new ArrayList<>(); // lista de todos os ids das apostas feitas
+    private Set<Integer> numerosSorteados = new HashSet<>(); // numeros sorteados, pode ter os 5 iniciais + 25 outros
+    private ArrayList<Aposta> listaVencedores = new ArrayList<>(); // se nao tiver nada ninguem ganhou
+    private boolean aberto = true;
+
+    public Sorteio() {
+        this.id = countId;
+        countId++;
+        this.dataCriacao = LocalDateTime.now(); // autoexplicaTIVO
     }
 
-    
-    //Gets
+    // Gets
     public long getId() {
         return id;
     }
@@ -28,7 +30,7 @@ public class Sorteio {
         return dataCriacao;
     }
 
-    public ArrayList<Long> getListaApostas() {
+    public ArrayList<Aposta> getListaApostas() {
         return listaApostas;
     }
 
@@ -36,32 +38,53 @@ public class Sorteio {
         return numerosSorteados;
     }
 
-    public Set<Long> getGanhadores() {
-        return ganhadores;
+    public ArrayList<Aposta> getListaVencedores() {
+        return listaVencedores;
     }
 
-    //Set
-    public void adicionarGanhador(Long ganhador) {
-        this.ganhadores.add(ganhador);
+    public boolean getAberto() {
+        return aberto;
     }
 
-    public boolean adicionarNumeroSorteado(int numeroSorteado) {
-        
-        //Se o numero ja foi sorteado, 
-        if(numerosSorteados.contains(numeroSorteado)){ 
-            return false;
+    // FUNÇÕES DE APOSTA
+    //adiciona uma nova aposta
+    public void adicionarAposta(Aposta novaAposta) {
+        listaApostas.add(novaAposta);
+    }
+
+
+    //FUNÇÕES DE SORTEIO/APURAÇÃO
+    //fecha o sorteio para novas apostas
+    public void fechar() {
+        this.aberto = false;
+    }
+
+    //Adiciona um numero extra ao resultado 
+    public void adicionarNumeroResultado(int numeroSorteado) { // sorteia mais um numero ao resultado
+        numerosSorteados.add(numeroSorteado);
+    }
+
+    //procura se tem vencedores no sorteio e os adiciona a lista de vencedores
+    public boolean procurarVencedores() {
+        // itera sobre a lista de apostas procurando match dos cinco apostados com os 5
+        // ou mais sorteados
+        boolean achou = false;
+        for (Aposta aposta : listaApostas) {
+            Set<Integer> numerosApostados = aposta.getNumerosApostados();
+            // Verifica se a aposta contém todos os números do resultado do sorteio
+            if (numerosApostados.containsAll(numerosSorteados)) {
+                listaVencedores.add(aposta);
+                achou = true;
+            }
         }
-
-        this.numerosSorteados.add(numeroSorteado);
-        return true;
-
+        return achou;
     }
-
 
     @Override
     public String toString() {
         return "Sorteio [id=" + id + ", dataCriacao=" + dataCriacao + ", listaApostas=" + listaApostas
-                + ", numerosSorteados=" + numerosSorteados + ", ganhadores=" + ganhadores + "]";
+                + ", numerosSorteados=" + numerosSorteados + ", ganhadores=" + listaVencedores + ", quantidade numeros: "+ numerosSorteados.size() +"]";
     }
 
+    
 }
