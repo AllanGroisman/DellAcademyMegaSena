@@ -1,4 +1,4 @@
-package com.allangroisman.Aplicacao;
+package com.allangroisman.Aplicacao.FaseDeApuracao;
 
 import java.util.Set;
 

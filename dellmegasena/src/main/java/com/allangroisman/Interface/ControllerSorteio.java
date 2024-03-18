@@ -9,16 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.allangroisman.Aplicacao.ApurarSorteio_UC;
-import com.allangroisman.Aplicacao.CriarAposta_UC;
-import com.allangroisman.Aplicacao.CriarSorteio_UC;
-import com.allangroisman.Aplicacao.ListarApostas_UC;
-import com.allangroisman.Aplicacao.SortearResultado_UC;
+import com.allangroisman.Aplicacao.FaseDeApostas.CriarAposta_UC;
+import com.allangroisman.Aplicacao.FaseDeApostas.ListarApostas_UC;
+import com.allangroisman.Aplicacao.FaseDeApuracao.ApurarSorteio_UC;
+import com.allangroisman.Aplicacao.FaseDeApuracao.SortearResultado_UC;
+import com.allangroisman.Aplicacao.FaseDeEntrada.CriarSorteio_UC;
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class ControllerSorteio {
 
@@ -64,6 +65,10 @@ public class ControllerSorteio {
         listaApostas.add(12);
         listaApostas.add(13);
         listaApostas.add(15);
+
+        if(listaApostas.size() != 5){
+            return "Quantidade de números errada";
+        }
         return criarAposta_UC.run("CARA", cpf, listaApostas);
     }
 

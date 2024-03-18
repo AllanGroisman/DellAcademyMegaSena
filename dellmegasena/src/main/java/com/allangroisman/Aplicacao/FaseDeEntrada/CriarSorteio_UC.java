@@ -1,4 +1,4 @@
-package com.allangroisman.Aplicacao;
+package com.allangroisman.Aplicacao.FaseDeEntrada;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

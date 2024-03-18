@@ -1,4 +1,4 @@
-package com.allangroisman.Aplicacao;
+package com.allangroisman.Aplicacao.FaseDeApostas;
 
 import java.util.Set;
 
