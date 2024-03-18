@@ -1,6 +1,9 @@
 package com.allangroisman.Dominio.Servicos;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,25 +16,19 @@ import com.allangroisman.Dominio.Funcoes.Sorteador;
 
 @Service
 public class ServicoSorteio {
-    // private IRepApostasJPA repApostas;
-    // private IRepSorteiosJPA repSorteios;
-    // private IRepUsuariosJPA repUsuarios;
 
     private static Sorteio sorteioAtual;
 
     @Autowired
     public ServicoSorteio() {
-        sorteioAtual = new Sorteio();
+        
     }
-    // public ServicoSorteio(IRepApostasJPA repApostas, IRepSorteiosJPA repSorteios,
-    // IRepUsuariosJPA repUsuarios) {
-    // this.repApostas = repApostas;
-    // this.repSorteios = repSorteios;
-    // this.repUsuarios = repUsuarios;
-    // }
 
     public String novoSorteio() {
-        //sorteioAtual = new Sorteio();
+        // Cria um novo sorteio
+        sorteioAtual = new Sorteio();
+        // Salva o sorteio no banco de dados
+        //repSorteios.save(sorteioAtual);
         return "Sorteio Criado" + sorteioAtual.toString();
     }
 
@@ -53,8 +50,9 @@ public class ServicoSorteio {
             }
         }
 
-        // Caso a aposta seja inédita, cria uma nova e adiciona na lista de apostas
-        Aposta novaAposta = new Aposta(cpf, listaNumeros);
+        // Caso a aposta seja inédita, apenas cria uma nova e adiciona na lista de
+        // apostas
+        Aposta novaAposta = new Aposta(nome, cpf, listaNumeros);
         sorteioAtual.adicionarAposta(novaAposta);
         return "Aposta " + novaAposta.toString() + "realizada com sucesso.";
     }
@@ -83,16 +81,49 @@ public class ServicoSorteio {
         // procura vencedores
         int count = 0;
         while (!sorteioAtual.procurarVencedores() || count < 25) { // tenta procurar vencedores até 25 vezes
-            sorteioAtual.adicionarNumeroResultado(Sorteador.sortearNumero(sorteioAtual.getNumerosSorteados()));                                                                                
+            sorteioAtual.adicionarNumeroResultado(Sorteador.sortearNumero(sorteioAtual.getNumerosSorteados()));
             count++;
         }
 
         // Transforma a saída para String genérica
         ArrayList<Aposta> listaVencedores = sorteioAtual.getListaVencedores();
         ArrayList<String> listaVencedoresString = listaVencedores.stream()
-                .map(Object::toString)
+                .sorted(Comparator.comparing(aposta -> aposta.getNomeUsuario())) //coloca em ordem alfabetica
+                .map(Object::toString) //transforma pra string pra so assim mandar como resposta.
                 .collect(Collectors.toCollection(ArrayList::new));
-        System.out.println(sorteioAtual.getNumerosSorteados()); // TIRAR
         return listaVencedoresString;
+    }
+
+    public ArrayList<String> listarApostaUsuario(String cpf) {
+        ArrayList<Aposta> listaApostas = sorteioAtual.getListaApostas();
+
+        // Filtrar a lista de apostas e converter cada Aposta em uma String representativa
+        ArrayList<String> apostasDoUsuario = listaApostas.stream()
+                .filter(aposta -> aposta.getCpfUsuario().equals(cpf))
+                .map(aposta -> aposta.toString()) // Substitua aposta.toString() pela representação de Aposta desejada
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        return apostasDoUsuario;
+    }
+
+    public Map<Integer, Integer> exibirRelatorio() {
+        // cria um mapa zerado com 1 a 50
+        Map<Integer, Integer> relatorio = new HashMap<>();
+        for (int i = 1; i < 51; i++) {
+            relatorio.put(i, 0);
+
+        }
+        // busca a lista de apostas
+        ArrayList<Aposta> listaApostas = sorteioAtual.getListaApostas();
+        for (Aposta aposta : listaApostas) {
+            // busca os numeros apostados em cada aposta
+            Set<Integer> numerosApostados = aposta.getNumerosApostados();
+            // pra cada numero apostado, atualiza a contagem dele no relatorio
+            for (Integer numero : numerosApostados) {
+                relatorio.put(numero, relatorio.get(numero) + 1);
+            }
+        }
+
+        return relatorio;
     }
 }

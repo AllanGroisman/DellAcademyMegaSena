@@ -7,19 +7,25 @@ import java.util.Set;
 
 public class Sorteio {
 
-    private static long countId = 0;
+    private static int countId = 0;
     private long id; // id unico do sorteio
     private LocalDateTime dataCriacao; // data em que o sorteio foi criado
+
     private ArrayList<Aposta> listaApostas = new ArrayList<>(); // lista de todos os ids das apostas feitas
+
     private Set<Integer> numerosSorteados = new HashSet<>(); // numeros sorteados, pode ter os 5 iniciais + 25 outros
+    
     private ArrayList<Aposta> listaVencedores = new ArrayList<>(); // se nao tiver nada ninguem ganhou
+
     private boolean aberto = true;
 
     public Sorteio() {
+        this.dataCriacao = LocalDateTime.now(); // autoexplicaTIVO
         this.id = countId;
         countId++;
-        this.dataCriacao = LocalDateTime.now(); // autoexplicaTIVO
     }
+
+
 
     // Gets
     public long getId() {

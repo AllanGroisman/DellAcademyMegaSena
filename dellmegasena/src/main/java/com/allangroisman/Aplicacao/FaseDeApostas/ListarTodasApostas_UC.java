@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.allangroisman.Dominio.Servicos.ServicoSorteio;
 
 @Component
-public class ListarApostas_UC {
+public class ListarTodasApostas_UC {
 
     @Autowired
     private ServicoSorteio servicoSorteio; // Serviço que trata de criar e gerenciar apostas
