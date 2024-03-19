@@ -25,8 +25,6 @@ public class Sorteio {
         countId++;
     }
 
-
-
     // Gets
     public long getId() {
         return id;
