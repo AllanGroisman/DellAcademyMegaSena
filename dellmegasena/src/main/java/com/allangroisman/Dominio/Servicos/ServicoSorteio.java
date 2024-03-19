@@ -3,6 +3,7 @@ package com.allangroisman.Dominio.Servicos;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -159,5 +160,38 @@ public class ServicoSorteio {
 
     public Set<Integer> buscarSorteados() {
         return sorteioAtual.getNumerosSorteados();
+    }
+
+    public String apostaSurpresinha(String nome, String cpf) {
+        //Cria a lista de numeros
+        Set<Integer> listaNumeros = new HashSet<>();
+        //Adiciona 5 numeros aleatorios
+        for (int i = 0; i < 5; i++) {
+            listaNumeros.add(Sorteador.sortearNumero(listaNumeros));           
+        }
+        //chama a funcao original de apostar com esta lista
+        return criarAposta(nome, cpf, listaNumeros);
+        
+    }
+
+    public int buscarQuantidadeRodadas() {
+        return sorteioAtual.getNumerosSorteados().size() - 5;
+    }
+
+    public int buscarQuantidadeVencedores() {
+        return sorteioAtual.getListaVencedores().size();
+    }
+
+    public ArrayList<String> listarVencedores() {
+        // Transforma a saída para String genérica
+        ArrayList<Aposta> listaVencedores = sorteioAtual.getListaVencedores();
+        ArrayList<String> listaVencedoresString = listaVencedores.stream()
+                .sorted(Comparator.comparing(aposta -> aposta.getNomeUsuario())) //coloca em ordem alfabetica
+                .map(Object::toString) //transforma pra string pra so assim mandar como resposta.
+                .collect(Collectors.toCollection(ArrayList::new));
+        if(listaVencedoresString.isEmpty()){
+            listaVencedoresString.add("NÃO HÁ VENCEDORES!");
+        }
+        return listaVencedoresString;
     }
 }

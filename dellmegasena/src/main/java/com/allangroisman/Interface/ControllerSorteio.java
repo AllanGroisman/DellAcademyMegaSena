@@ -14,41 +14,61 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
-
+import com.allangroisman.Aplicacao.FaseDeApostas.ApostaSurpresinha_UC;
 import com.allangroisman.Aplicacao.FaseDeApostas.CriarAposta_UC;
 import com.allangroisman.Aplicacao.FaseDeApostas.ListarTodasApostas_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.ApurarSorteio_UC;
+import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQuantidadeRodadas_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarSorteados_UC;
+import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQuantidadeVencedores_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.ExibirRelatorio_UC;
+import com.allangroisman.Aplicacao.FaseDeApuracao.ListarVencedores_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.SortearResultado_UC;
 import com.allangroisman.Aplicacao.FaseDeEntrada.CriarSorteio_UC;
-
 
 @Controller
 @RequestMapping("/")
 public class ControllerSorteio {
 
-    CriarSorteio_UC novoSorteio_UC; //esta criando 2 
-    CriarAposta_UC criarAposta_UC; //IMPLEMENTADO
-    ListarTodasApostas_UC listarApostas_UC; //IMPLEMENTADO
-    SortearResultado_UC sortearResultado_UC; //quase
-    ApurarSorteio_UC apurarSorteio_UC;
-    ExibirRelatorio_UC exibirRelatorio_UC;
-    BuscarSorteados_UC buscarSorteados_UC;
+    CriarSorteio_UC novoSorteio_UC; // cria novo sorteio
+    CriarAposta_UC criarAposta_UC; // cria nova aposta
+    ApostaSurpresinha_UC apostaSurpresinha_UC; // cria nova aposta surpresinha
+    ListarTodasApostas_UC listarApostas_UC; // lista todas as apostas
+
+    SortearResultado_UC sortearResultado_UC; // faz o primeiro sorteio de 5 numeros
+    ApurarSorteio_UC apurarSorteio_UC; // apura e sorteia numeros ate ter um vencedor
+    
+    BuscarSorteados_UC buscarSorteados_UC; // busca os numeros sorteados
+    BuscarQuantidadeRodadas_UC buscarQuantidadeRodadas_UC; // busca quantas rodadas teve ate sair o vencedor
+    BuscarQuantidadeVencedores_UC buscarQuantidadeVencedores_UC; // busca a lista de vencedores
+    ExibirRelatorio_UC exibirRelatorio_UC; //gera o relatorio de todos os numeros apostados
+    ListarVencedores_UC listarVencedores_UC; //busca a lista de vencedores
 
     @Autowired
     public ControllerSorteio(CriarSorteio_UC novoSorteio_UC, CriarAposta_UC criarAposta_UC,
             ListarTodasApostas_UC listarApostas_UC, SortearResultado_UC sortearResultado_UC,
             ApurarSorteio_UC apurarSorteio_UC, ExibirRelatorio_UC exibirRelatorio_UC,
-            BuscarSorteados_UC buscarSorteados_UC) {
+            BuscarSorteados_UC buscarSorteados_UC, ApostaSurpresinha_UC apostaSurpresinha_UC,
+            BuscarQuantidadeRodadas_UC buscarQuantidadeRodadas_UC, BuscarQuantidadeVencedores_UC buscarQuantidadeVencedores_UC,
+            ListarVencedores_UC listarVencedores_UC) {
 
-        this.novoSorteio_UC = novoSorteio_UC; //Implementado, mas o id nao funciona ainda  
-        this.criarAposta_UC = criarAposta_UC; //Implementado e Testado
-        this.listarApostas_UC = listarApostas_UC; //Nao tem como ser testado
-        this.sortearResultado_UC = sortearResultado_UC; //Testado
+        this.novoSorteio_UC = novoSorteio_UC; // Implementado, mas o id nao funciona ainda
+        this.criarAposta_UC = criarAposta_UC; // Implementado e Testado
+        this.listarApostas_UC = listarApostas_UC; // Nao tem como ser testado
+
+        this.sortearResultado_UC = sortearResultado_UC; // Testado
         this.apurarSorteio_UC = apurarSorteio_UC;
-        this.exibirRelatorio_UC = exibirRelatorio_UC;
         this.buscarSorteados_UC = buscarSorteados_UC;
+        this.buscarQuantidadeRodadas_UC = buscarQuantidadeRodadas_UC;
+        this.buscarQuantidadeVencedores_UC = buscarQuantidadeVencedores_UC;
+        this.listarVencedores_UC = listarVencedores_UC;
+        
+
+        this.exibirRelatorio_UC = exibirRelatorio_UC;
+        
+        this.apostaSurpresinha_UC = apostaSurpresinha_UC; //Implementado e testado
+
+        
 
         System.out.println("\n\nCriado Controller MegaSena\n\n");
 
@@ -60,18 +80,25 @@ public class ControllerSorteio {
     public String inicioServicos() {
         return "telaInicial";
     }
-
+    //MENU DE SORTEIO /////////////////////////////////////////////////////////////////////////////////////////
     // Cria um novo sorteio e entra no menu de sorteio
     @GetMapping("/criarsorteio")
     public String novoSorteio(Model model) {
-        model.addAttribute("mensagem", novoSorteio_UC.run());
-        return "menuSorteio";
+        String mensagem = novoSorteio_UC.run();
+        model.addAttribute("mensagem", mensagem);
+        return "sorteio/1menuSorteio";
+    }
+    // Volta pro menu de sorteio
+    @GetMapping("/menusorteio")
+    public String menuSorteio(Model model) {
+        return "sorteio/1menuSorteio";
     }
 
+    //MENU DE APOSTAS/////////////////////////////////////////////////////////////////////////////////////////
     // Abrir formulario para inscricao
-    @GetMapping("/criaraposta")
-    public String criarAposta() {
-        return "criarAposta";
+    @GetMapping("/novaaposta")
+    public String novaAposta() {
+        return "sorteio/2novaAposta";
     }
 
     // criar nova aposta com dados do usuario
@@ -93,54 +120,74 @@ public class ControllerSorteio {
         listaApostas.add(n4);
         listaApostas.add(n5);
 
-        model.addAttribute("mensagem", criarAposta_UC.run(nome, cpf, listaApostas));
-        return "submeterFormulario";
+        model.addAttribute("resposta", criarAposta_UC.run(nome, cpf, listaApostas));
+        return "sorteio/2enviarFormulario";
     }
 
+    // Abrir formulario SURPRESINHA
+    @GetMapping("/surpresinha")
+    public String novaApostaSurpresinha() {
+        return "sorteio/2novaApostaSurpresinha";
+    }
+    // Aposta o surpresinha
+    @GetMapping("/surpresinha/{nome}/{cpf}")
+    public String apostaSurpresinha(@PathVariable("nome") String nome,
+            @PathVariable("cpf") String cpf,
+            Model model) {
+        model.addAttribute("resposta", apostaSurpresinha_UC.run(nome, cpf));
+        return "sorteio/2enviarFormulario";
+    }
+
+    //LISTAR APOSTAS///////////////////////////////////////////////////////////////////////////////////////////
     // visualizar lista de apostas
     @GetMapping("/listarapostas")
     public String listarApostas(Model model) {
-        
-        model.addAttribute("mensagem", listarApostas_UC.run());
-        return "listaApostas";
+
+        model.addAttribute("resposta", listarApostas_UC.run());
+        return "sorteio/2listarApostas";
     }
 
+    //ENCERRAMENTO DAS APOSTAS E SORTEAMENTO DO RESULTADO
     // sortear resultado
     // Fecha o sorteio para novas apostas
     // Sorteia 5 primeiros numeros
-    @GetMapping("/sortear")
-    public String sortearResultado(Model model) {
+    @GetMapping("/encerrarapostas")
+    public String encerrarApostas(Model model) {
 
-        model.addAttribute("mensagem",sortearResultado_UC.run());
-        return "resultadoSorteado";
+        model.addAttribute("resposta", sortearResultado_UC.run());
+        return "apuracao/3encerrarApostas";
     }
-
-    // apurar vencedores
+    //FASE DE APURACAO/////////////////////////////////////////////////////////////////////////////////////////
+    // apurar vencedores e entao exibir
     @GetMapping("/apuracao")
     public String apurarSorteio(Model model) {
-
-        model.addAttribute("mensagem",apurarSorteio_UC.run());
-        return "apuracao";
+        apurarSorteio_UC.run();
+        model.addAttribute("sorteados", buscarSorteados_UC.run()); //numeros sorteados
+        model.addAttribute("rodadas", buscarQuantidadeRodadas_UC.run()); //quantidade de rodadas
+        model.addAttribute("vencedores", buscarQuantidadeVencedores_UC.run()); //quantidade de vencedores
+        return "apuracao/3apuracao";
+    }
+    //apenas exibir
+    @GetMapping("/exibirapuracao")
+    public String exibirApuracao(Model model) {
+        model.addAttribute("sorteados", buscarSorteados_UC.run()); //numeros sorteados
+        model.addAttribute("rodadas", buscarQuantidadeRodadas_UC.run()); //quantidade de rodadas
+        model.addAttribute("vencedores", buscarQuantidadeVencedores_UC.run()); //quantidade de vencedores
+        return "apuracao/3apuracao";
+    }
+    //exibir relatorio que volta para o exibir apuracao
+    @GetMapping("/gerarrelatorio")
+    public String gerarRelatorio(Model model) {
+        model.addAttribute("relatorio", exibirRelatorio_UC.run());
+        return "apuracao/4exibirrelatorio";
+    }
+   
+    //exibir lista de vencedores
+    @GetMapping("/listarvencedores")
+    public String listarVencedores(Model model) {
+        model.addAttribute("vencedores", listarVencedores_UC.run());
+        return "apuracao/4listarvencedores";
     }
 
-    @GetMapping("/numerossorteados")
-    public String buscarSorteados(Model model) {
 
-        model.addAttribute("mensagem",buscarSorteados_UC.run());
-        return "numerosSorteados";
-    }
-
-    @GetMapping("/relatoriosorteio")
-    public String exibirRelatorio(Model model) {
-        model.addAttribute("mensagem",exibirRelatorio_UC.run());
-        return "relatorio";
-    }
-
-
-    //EXEMPLO
-    @GetMapping("/minhaPagina")
-    public String minhaPagina(Model model) {
-        model.addAttribute("mensagem", "Olá, Thymeleaf!wwwww");
-        return "minhaPagina"; // Nome do arquivo HTML Thymeleaf dentro de src/main/resources/templates
-    }
 }

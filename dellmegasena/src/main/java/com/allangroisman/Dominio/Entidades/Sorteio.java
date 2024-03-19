@@ -8,6 +8,7 @@ import java.util.Set;
 public class Sorteio {
 
     private static int countId = 0;
+
     private int id; // id unico do sorteio
     private LocalDateTime dataCriacao; // data em que o sorteio foi criado
 
@@ -23,6 +24,7 @@ public class Sorteio {
         this.dataCriacao = LocalDateTime.now(); // autoexplicaTIVO
         this.id = countId;
         countId++;
+        System.out.println("NOVO SORTEIO CRIADO /////////////////////////////////" + this.id);
     }
 
     // Gets

@@ -88,7 +88,13 @@ public class ServicoSorteioTest {
         String resposta = testeServSorteio.criarAposta("Fulano", "039",listaApostas);
         Assertions.assertThat(resposta).isEqualTo("Fase de apostas já finalizada.");
     }
-
+    //APOSTA SURPRESINHA
+    @Test
+    public void apostaSurpresinha(){  
+        String resposta = testeServSorteio.apostaSurpresinha("Fulano", "039");
+        Assertions.assertThat(resposta).isEqualTo("Aposta realizada com sucesso.");
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     //TESTES FASE SORTEIO
     //Sorteia apenas uma vez
     @Test

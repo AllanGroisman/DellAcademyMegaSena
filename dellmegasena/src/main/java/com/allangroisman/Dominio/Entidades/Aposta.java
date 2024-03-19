@@ -3,14 +3,9 @@ package com.allangroisman.Dominio.Entidades;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
-@Entity
 public class Aposta {
      
-
-    @Id
     private long id; //começa em 1000
     private static long countId = 1000;
     
