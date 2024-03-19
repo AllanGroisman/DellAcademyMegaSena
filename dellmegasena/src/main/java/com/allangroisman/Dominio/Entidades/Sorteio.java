@@ -8,7 +8,7 @@ import java.util.Set;
 public class Sorteio {
 
     private static int countId = 0;
-    private long id; // id unico do sorteio
+    private int id; // id unico do sorteio
     private LocalDateTime dataCriacao; // data em que o sorteio foi criado
 
     private ArrayList<Aposta> listaApostas = new ArrayList<>(); // lista de todos os ids das apostas feitas
@@ -26,7 +26,7 @@ public class Sorteio {
     }
 
     // Gets
-    public long getId() {
+    public int getId() {
         return id;
     }
 

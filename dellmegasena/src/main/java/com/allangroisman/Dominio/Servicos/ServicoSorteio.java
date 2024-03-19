@@ -27,9 +27,7 @@ public class ServicoSorteio {
     public String novoSorteio() {
         // Cria um novo sorteio
         sorteioAtual = new Sorteio();
-        // Salva o sorteio no banco de dados
-        //repSorteios.save(sorteioAtual);
-        return "Sorteio Criado" + sorteioAtual.toString();
+        return "ID do Sorteio Criado: " + sorteioAtual.getId();
     }
 
     public String criarAposta(String nome, String cpf, Set<Integer> listaNumeros) {
@@ -63,7 +61,7 @@ public class ServicoSorteio {
         // apostas
         Aposta novaAposta = new Aposta(nome, cpf, listaNumeros);
         sorteioAtual.adicionarAposta(novaAposta);
-        return "Aposta " + novaAposta.toString() + "realizada com sucesso.";
+        return "Aposta realizada com sucesso.";
     }
 
     public ArrayList<String> listarApostas() {
@@ -127,10 +125,10 @@ public class ServicoSorteio {
     public ArrayList<String> listarApostaUsuario(String cpf) {
         ArrayList<Aposta> listaApostas = sorteioAtual.getListaApostas();
 
-        // Filtrar a lista de apostas e converter cada Aposta em uma String representativa
+        // Filtra a lista pelo cpf e converte pra string
         ArrayList<String> apostasDoUsuario = listaApostas.stream()
                 .filter(aposta -> aposta.getCpfUsuario().equals(cpf))
-                .map(aposta -> aposta.toString()) // Substitua aposta.toString() pela representação de Aposta desejada
+                .map(aposta -> aposta.toString()) 
                 .collect(Collectors.toCollection(ArrayList::new));
 
         if(apostasDoUsuario.isEmpty()){
@@ -158,8 +156,6 @@ public class ServicoSorteio {
         }
         return relatorio;
     }
-
-    
 
     public Set<Integer> buscarSorteados() {
         return sorteioAtual.getNumerosSorteados();

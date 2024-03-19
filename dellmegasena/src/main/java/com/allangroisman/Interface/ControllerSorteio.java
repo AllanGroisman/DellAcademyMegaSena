@@ -42,10 +42,10 @@ public class ControllerSorteio {
             ApurarSorteio_UC apurarSorteio_UC, ExibirRelatorio_UC exibirRelatorio_UC,
             BuscarSorteados_UC buscarSorteados_UC) {
 
-        this.novoSorteio_UC = novoSorteio_UC;
-        this.criarAposta_UC = criarAposta_UC;
-        this.listarApostas_UC = listarApostas_UC;
-        this.sortearResultado_UC = sortearResultado_UC;
+        this.novoSorteio_UC = novoSorteio_UC; //Implementado, mas o id nao funciona ainda  
+        this.criarAposta_UC = criarAposta_UC; //Implementado e Testado
+        this.listarApostas_UC = listarApostas_UC; //Nao tem como ser testado
+        this.sortearResultado_UC = sortearResultado_UC; //Testado
         this.apurarSorteio_UC = apurarSorteio_UC;
         this.exibirRelatorio_UC = exibirRelatorio_UC;
         this.buscarSorteados_UC = buscarSorteados_UC;
