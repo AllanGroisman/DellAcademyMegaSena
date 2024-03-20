@@ -14,7 +14,8 @@ public class ListarApostasUsuario_UC {
     private ServicoSorteio servicoSorteio; // Serviço que trata de criar e gerenciar apostas
 
     public ArrayList<String> run(String cpf) {
-        return servicoSorteio.listarApostaUsuario(cpf);
+        return new ArrayList<>();
+        //return servicoSorteio.listarApostaUsuario(cpf);
     }
 
 }

@@ -11,6 +11,7 @@ public class ApostaSurpresinha_UC {
     private ServicoSorteio servicoSorteio; // Serviço que trata de criar e gerenciar apostas
 
     public String run(String nome, String cpf) {
-        return servicoSorteio.apostaSurpresinha(nome, cpf);
+       
+       return servicoSorteio.apostaSurpresinha(nome, cpf);
     }
 }

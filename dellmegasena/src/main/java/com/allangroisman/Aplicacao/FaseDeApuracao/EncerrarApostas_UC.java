@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import com.allangroisman.Dominio.Servicos.ServicoSorteio;
 
 @Component
-public class SortearResultado_UC {
+public class EncerrarApostas_UC {
 
     @Autowired
     private ServicoSorteio servicoSorteio;
 
-    public Set<Integer> run() {
-        return servicoSorteio.sortearResultado();
+    public String run() {
+        return servicoSorteio.encerrarApostas();
     }
 
 }

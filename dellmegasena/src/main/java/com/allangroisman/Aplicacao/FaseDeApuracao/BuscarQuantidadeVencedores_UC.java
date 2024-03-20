@@ -13,6 +13,7 @@ public class BuscarQuantidadeVencedores_UC {
     private ServicoSorteio servicoSorteio; //Serviço que trata de criar e gerenciar apostas
     
     public int run() {
-        return servicoSorteio.buscarQuantidadeVencedores();
+        return 1;
+        //return servicoSorteio.buscarQuantidadeVencedores();
     }
 }

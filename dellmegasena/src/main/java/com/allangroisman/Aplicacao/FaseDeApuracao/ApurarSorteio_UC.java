@@ -14,6 +14,8 @@ public class ApurarSorteio_UC {
     private ServicoSorteio servicoSorteio; //Serviço que trata de criar e gerenciar apostas
     
     public ArrayList<String> run() {
+        //return new ArrayList<>();
         return servicoSorteio.apurarSorteio();
     }
+    
 }
