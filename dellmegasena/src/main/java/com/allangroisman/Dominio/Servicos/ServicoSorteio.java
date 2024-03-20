@@ -38,9 +38,10 @@ public class ServicoSorteio {
         return "ID do Sorteio Criado: ";
     }
 
-    //FUNÇÕES
+    // FUNÇÕES
 
-    // FUNÇÃO QUE CRIA NOVAS APOSTAS////////////////////////////////////////////////////////////////////////////////
+    // FUNÇÃO QUE CRIA NOVAS
+    // APOSTAS////////////////////////////////////////////////////////////////////////////////
     public String criarAposta(String nome, String cpf, Set<Integer> listaNumeros) {
         // Se a fase de apostas ja terminou
         if (!sorteioAtual.getAberto()) {
@@ -71,7 +72,8 @@ public class ServicoSorteio {
             }
         }
 
-        // Caso a aposta seja inedita, cria uma nova////////////////////////////////////////////////////////
+        // Caso a aposta seja inedita, cria uma
+        // nova////////////////////////////////////////////////////////
         Aposta novaAposta = new Aposta(nome, cpf, listaNumeros);
         // informa qual seu sorteio
         novaAposta.setSorteio(sorteioAtual);
@@ -82,7 +84,7 @@ public class ServicoSorteio {
         return "Aposta Criada com Sucesso.\n" + novaAposta;
     }
 
-    //FUNÇÃO QUE ESCOLHE OS NUMEROS DA APOSTA SURPRESINHA////////////////////////////////////////////////////
+    // FUNÇÃO QUE ESCOLHE OS NUMEROS DA APOSTA SURPRESINHA////////////////////////////////////////
     public String apostaSurpresinha(String nome, String cpf) {
         // Cria a lista de numeros
         Set<Integer> listaNumeros = new HashSet<>();
@@ -94,7 +96,7 @@ public class ServicoSorteio {
         return criarAposta(nome, cpf, listaNumeros);
     }
 
-    //FUNÇÃO QUE LISTA AS APOSTAS DO SORTEIO ATUAL////////////////////////////////////////////////////////////
+    // FUNÇÃO QUE LISTA AS APOSTAS DO SORTEIO ATUAL///////////////////////////////////////////////
     public List<String> listarApostas() {
         // pega todas as apostas do sorteio atual e converte para um array de string
         List<Aposta> listaApostas = sorteioAtual.getListaApostas();
@@ -107,20 +109,21 @@ public class ServicoSorteio {
         return listaApostasString;
     }
 
-    //Função que encerra a fase de apostas e sorteia os primeiros cinco numeros //////////////////////////////
+    //FUNÇÃO QUE ENCERRA A FASE DE APOSTAS E SORTEIA OS PRIMEIROS 5// NUMEROS///////////////////////////
+
     public String encerrarApostas() {
 
-        //se ja esta com o sorteio atual fechado, apenas informa os numeros sorteados
+        // se ja esta com o sorteio atual fechado, apenas informa os numeros sorteados
         if (!sorteioAtual.getAberto()) {
             return "Sorteio fechado, números sorteados: " + sorteioAtual.getNumerosSorteados();
         }
-        
-        //fecha o sorteio para novas apostas
+
+        // fecha o sorteio para novas apostas
         sorteioAtual.fechar();
 
         // Cria um set de numeros sorteados
         Set<Integer> numerosSorteados = new HashSet<>();
-        
+
         // adiciona 5 numeros atraves do sorteador
         for (int i = 0; i < 5; i++) {
             numerosSorteados.add(Sorteador.sortearNumero(numerosSorteados));
@@ -130,22 +133,31 @@ public class ServicoSorteio {
         return "Sorteio fechado, números sorteados: " + numerosSorteados;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // public ArrayList<String> apurarSorteio() {
-    // //se ainda ta na fase de apostas
-    // if(sorteioAtual.getAberto()){
-    // ArrayList<String> respostaVazia = new ArrayList<>();
-    // respostaVazia.add("AINDA EM FASE DE APOSTAS");
-    // return respostaVazia;
-    // }
-    // // procura vencedores
-    // //se nao há
-    // int count = 0;
-    // while (!sorteioAtual.procurarVencedores() && count < 25) { // tenta procurar
-    // vencedores até 25 vezes
-    // sorteioAtual.adicionarNumeroResultado(Sorteador.sortearNumero(sorteioAtual.getNumerosSorteados()));
-    // count++;
-    // }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // FASE DE APURAÇÃO
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // FUNÇÃO QUE APURA O SORTEIO REALIZANDO ATE 25 RODADAS
+
+    public String apurarSorteio() {
+
+        // se ainda ta na fase de apostas
+        if (sorteioAtual.getAberto()) {
+            
+            return "Ainda em fase de apostas.";
+        }
+
+        // tenta procurar vencedores com os numeros atuais, se não há adiciona mais um
+        // numero e tenta novamente ate 25x
+        int count = 0;
+        while (!sorteioAtual.procurarVencedores() && count < 25) {
+            sorteioAtual.adicionarNumeroResultado(Sorteador.sortearNumero(sorteioAtual.getNumerosSorteados()));
+            count++;
+            return "Vencedor Encontrado!";
+            
+        }
+        return "Não há vencedores.";
+    }
+    /////////////////////////////////////////
 
     // // Transforma a saída para String genérica
     // ArrayList<Aposta> listaVencedores = sorteioAtual.getListaVencedores();
@@ -205,8 +217,6 @@ public class ServicoSorteio {
         return sorteioAtual.getNumerosSorteados().size() - 5;
     }
 
-    
-
     // public int buscarQuantidadeVencedores() {
     // return sorteioAtual.getListaVencedores().size();
     // }
@@ -228,11 +238,6 @@ public class ServicoSorteio {
 
     public void manipular() {
         sorteioAtual.manipularResultado();
-    }
-
-    public ArrayList<String> apurarSorteio() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'apurarSorteio'");
     }
 
 }

@@ -26,6 +26,8 @@ public class Aposta {
     @JoinColumn(name = "sorteio_id")
     private Sorteio sorteio;
     
+    private boolean vencedora = false;
+    
     public Aposta() {
     }
 
@@ -70,6 +72,16 @@ public class Aposta {
     public void setSorteio(Sorteio sorteioAtual) {
         this.sorteio = sorteioAtual;
     }
+
+    public void setVencedora() {
+        vencedora = true;
+    }
+
+    public boolean getVencedora() {
+        return vencedora;
+    }
+
+    
 
    
     
