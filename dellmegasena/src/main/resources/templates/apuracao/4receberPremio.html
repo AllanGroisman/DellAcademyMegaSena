@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Vencedores</title>
+    <title>Apuração</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
@@ -22,7 +22,6 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             text-align: center; 
-            width: 80%;
         }
         button {
             padding: 10px;
@@ -37,27 +36,12 @@
         button:hover {
             background-color: #6c757d;
         }
-        ul {
-            list-style-type: none;
-            
-            padding: 0;
-           
-        }
-
-        li {
-            text-align: left;
-            
-            margin-bottom: 5px;
-            
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Lista de Vencedores:</h2>
-        <ul>
-            <li th:each="vencedores : ${vencedores}" th:text="${vencedores}">Lista de Apostas</li>
-        </ul>
+        <h2>Escolha:</h2>
+        <h1 th:text="${vencedores}">vencedores</h1> 
         <button onclick="window.location.href='/exibirapuracao'">Voltar</button>
     </div>
 </body>

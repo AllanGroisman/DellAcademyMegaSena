@@ -23,6 +23,7 @@ import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarSorteados_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQuantidadeVencedores_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.ExibirRelatorio_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.ListarVencedores_UC;
+import com.allangroisman.Aplicacao.FaseDeApuracao.Manipular_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.SortearResultado_UC;
 import com.allangroisman.Aplicacao.FaseDeEntrada.CriarSorteio_UC;
 
@@ -44,13 +45,15 @@ public class ControllerSorteio {
     ExibirRelatorio_UC exibirRelatorio_UC; //gera o relatorio de todos os numeros apostados
     ListarVencedores_UC listarVencedores_UC; //busca a lista de vencedores
 
+    Manipular_UC manipular_UC;
+
     @Autowired
     public ControllerSorteio(CriarSorteio_UC novoSorteio_UC, CriarAposta_UC criarAposta_UC,
             ListarTodasApostas_UC listarApostas_UC, SortearResultado_UC sortearResultado_UC,
             ApurarSorteio_UC apurarSorteio_UC, ExibirRelatorio_UC exibirRelatorio_UC,
             BuscarSorteados_UC buscarSorteados_UC, ApostaSurpresinha_UC apostaSurpresinha_UC,
             BuscarQuantidadeRodadas_UC buscarQuantidadeRodadas_UC, BuscarQuantidadeVencedores_UC buscarQuantidadeVencedores_UC,
-            ListarVencedores_UC listarVencedores_UC) {
+            ListarVencedores_UC listarVencedores_UC, Manipular_UC manipular_UC) {
 
         this.novoSorteio_UC = novoSorteio_UC; // Implementado, mas o id nao funciona ainda
         this.criarAposta_UC = criarAposta_UC; // Implementado e Testado
@@ -67,6 +70,7 @@ public class ControllerSorteio {
         this.exibirRelatorio_UC = exibirRelatorio_UC;
         
         this.apostaSurpresinha_UC = apostaSurpresinha_UC; //Implementado e testado
+        this.manipular_UC = manipular_UC;
 
         
 
@@ -188,6 +192,20 @@ public class ControllerSorteio {
         model.addAttribute("vencedores", listarVencedores_UC.run());
         return "apuracao/4listarvencedores";
     }
+    //https://youtu.be/RKEmrNOo77I?si=ELvHVFphPCunVyJI
+    //exibir lista de vencedores
+    @GetMapping("/receberpremio")
+    public String receberPremio(Model model) {
+        model.addAttribute("vencedores", listarVencedores_UC.run());
+        return "apuracao/4receberPremio";
+    }
 
+    @GetMapping("/manipular")
+    public String manipular() {
+        manipular_UC.run();
+        return "apuracao/3apuracao";
+    }
+
+    
 
 }

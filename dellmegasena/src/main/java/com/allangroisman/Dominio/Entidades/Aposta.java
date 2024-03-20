@@ -42,8 +42,7 @@ public class Aposta {
 
     @Override
     public String toString() {
-        return "Aposta [id=" + id + ", nomeUsuario=" + nomeUsuario + ", cpfUsuario=" + cpfUsuario
-                + ", numerosApostados=" + numerosApostados + "]";
+        return "Nome: " + nomeUsuario + ". Cpf:" + cpfUsuario + ". Aposta "+ id +". Números apostados: " + numerosApostados + "\n";
     }
 
    

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+
 public class Sorteio {
 
     private static int countId = 0;
-
     private int id; // id unico do sorteio
     private LocalDateTime dataCriacao; // data em que o sorteio foi criado
 
@@ -26,6 +26,8 @@ public class Sorteio {
         countId++;
         System.out.println("NOVO SORTEIO CRIADO /////////////////////////////////" + this.id);
     }
+
+    
 
     // Gets
     public int getId() {
@@ -84,6 +86,12 @@ public class Sorteio {
             }
         }
         return achou;
+    }
+
+    public void manipularResultado(){
+        Set<Integer> numerosManipulados = Set.of(1, 2, 3, 4, 5);
+        
+        this.numerosSorteados = numerosManipulados;
     }
 
     @Override

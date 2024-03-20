@@ -21,7 +21,13 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            text-align: center; 
+            text-align: center;
+            color: #ffffff;
+            width: 80%;
+            max-width: 800px;
+            height: auto;
+            max-height: 70vh;
+            overflow-y: auto;
         }
         button {
             padding: 10px;
@@ -36,12 +42,38 @@
         button:hover {
             background-color: #6c757d;
         }
+        table {
+            width: 100%; /* Faz a tabela preencher o container */
+            border-collapse: collapse; /* Remove espaços entre as células */
+        }
+        th, td {
+            border: 1px solid #ddd; /* Adiciona bordas às células */
+            padding: 8px; /* Adiciona preenchimento para melhor legibilidade */
+            text-align: left; /* Alinha o texto à esquerda */
+        }
+        th {
+            background-color: #555; /* Cor de fundo para cabeçalhos de tabela */
+            color: #ffffff; /* Cor do texto para cabeçalhos de tabela */
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Relatório de números (Número x Quantidade):</h2>
-        <h1 th:text="${relatorio}">relatorio</h1> 
+        <h2>Relatório:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Repetições</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="relatorio : ${relatorio}">
+                    <td th:text="${relatorio.key}">Número</td>
+                    <td th:text="${relatorio.value}">Repetições</td>
+                </tr>
+            </tbody>
+        </table>
         <button onclick="window.location.href='/exibirapuracao'">Voltar</button>
     </div>
 </body>

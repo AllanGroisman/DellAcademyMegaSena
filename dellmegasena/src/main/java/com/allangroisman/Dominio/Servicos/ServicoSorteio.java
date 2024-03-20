@@ -60,8 +60,9 @@ public class ServicoSorteio {
 
         // Caso a aposta seja inédita, apenas cria uma nova e adiciona na lista de
         // apostas
-        Aposta novaAposta = new Aposta(nome, cpf, listaNumeros);
-        sorteioAtual.adicionarAposta(novaAposta);
+       // Aposta novaAposta = new Aposta(nome, cpf, listaNumeros);
+        sorteioAtual.adicionarAposta( new Aposta(nome, cpf, listaNumeros));
+        System.out.println("NOVA APOSTA");
         return "Aposta realizada com sucesso.";
     }
 
@@ -155,6 +156,7 @@ public class ServicoSorteio {
                 relatorio.put(numero, relatorio.get(numero) + 1);
             }
         }
+          
         return relatorio;
     }
 
@@ -193,5 +195,9 @@ public class ServicoSorteio {
             listaVencedoresString.add("NÃO HÁ VENCEDORES!");
         }
         return listaVencedoresString;
+    }
+
+    public void manipular() {
+        sorteioAtual.manipularResultado();
     }
 }
