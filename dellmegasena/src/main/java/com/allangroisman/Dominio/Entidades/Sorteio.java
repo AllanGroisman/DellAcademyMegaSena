@@ -95,4 +95,10 @@ public class Sorteio {
         return this.qtdVencedores;
     }
 
+    @Override
+    public String toString() {
+        return "Sorteio: " + id + ", Data: " + dataCriacao + " Resultado: "
+                + numerosSorteados + ", Status: " + aberto + ", Qtd Vencedores: " + qtdVencedores;
+    }
+
 }

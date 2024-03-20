@@ -11,6 +11,7 @@ import com.allangroisman.Aplicacao.FaseDeApuracao.ApurarSorteio_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQtdRodadas_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQtdVencedores_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarSorteados_UC;
+import com.allangroisman.Aplicacao.FaseDeApuracao.EncerrarSorteio_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.ExibirRelatorio_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.ListarVencedores_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.Manipular_UC;
@@ -31,12 +32,15 @@ public class ControllerApuracao {
 
     Manipular_UC manipular_UC;
 
+    EncerrarSorteio_UC encerrarSorteio_UC;
+
     @Autowired
     public ControllerApuracao(ApurarSorteio_UC apurarSorteio_UC, BuscarSorteados_UC buscarSorteados_UC,
             BuscarQtdRodadas_UC buscarQtdRodadas_UC,
             BuscarQtdVencedores_UC buscarQtdVencedores_UC,
             ExibirRelatorio_UC exibirRelatorio_UC,
-            ListarVencedores_UC listarVencedores_UC, Manipular_UC manipular_UC) {
+            ListarVencedores_UC listarVencedores_UC, Manipular_UC manipular_UC,
+            EncerrarSorteio_UC encerrarSorteio_UC) {
 
         this.apurarSorteio_UC = apurarSorteio_UC;
 
@@ -46,6 +50,7 @@ public class ControllerApuracao {
         this.listarVencedores_UC = listarVencedores_UC;
         this.exibirRelatorio_UC = exibirRelatorio_UC;
         this.manipular_UC = manipular_UC;
+        this.encerrarSorteio_UC = encerrarSorteio_UC;
         System.out.println("\n\nCriado Controller Apuração\n\n");
     }
 
@@ -91,6 +96,15 @@ public class ControllerApuracao {
         model.addAttribute("vencedores", listarVencedores_UC.run());
         return "apuracao/4receberPremio";
     }
+
+    @GetMapping("/encerrarsorteio")
+    public String encerrarSorteio(Model model) {
+        encerrarSorteio_UC.run();
+        return "telainicial";
+    }
+
+
+
 
     @GetMapping("/manipular")
     public String manipular() {

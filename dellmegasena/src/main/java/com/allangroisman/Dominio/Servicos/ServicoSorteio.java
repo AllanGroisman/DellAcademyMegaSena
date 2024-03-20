@@ -1,11 +1,9 @@
 package com.allangroisman.Dominio.Servicos;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -231,6 +229,10 @@ public class ServicoSorteio {
     // FUNÇÃO QUE MANIPULA O RESULTADO PARA QUE SEJA 1,2,3,4,5
     public void manipular() {
         sorteioAtual.manipularResultado();
+        repSorteio.save(sorteioAtual);
+    }
+
+    public void encerrarSorteio() {
         repSorteio.save(sorteioAtual);
     }
 
