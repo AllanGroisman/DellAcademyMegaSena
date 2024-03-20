@@ -1,9 +1,11 @@
 package com.allangroisman.Dominio.Servicos;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -81,10 +83,11 @@ public class ServicoSorteio {
         sorteioAtual.addAposta(novaAposta);
         // atualiza o sorteio no db
         repSorteio.save(sorteioAtual);
-        return "Aposta Criada com Sucesso.\n" + novaAposta;
+        return "Aposta Criada com Sucesso. " + novaAposta.toString();
     }
 
-    // FUNÇÃO QUE ESCOLHE OS NUMEROS DA APOSTA SURPRESINHA////////////////////////////////////////
+    // FUNÇÃO QUE ESCOLHE OS NUMEROS DA APOSTA
+    // SURPRESINHA////////////////////////////////////////
     public String apostaSurpresinha(String nome, String cpf) {
         // Cria a lista de numeros
         Set<Integer> listaNumeros = new HashSet<>();
@@ -96,7 +99,8 @@ public class ServicoSorteio {
         return criarAposta(nome, cpf, listaNumeros);
     }
 
-    // FUNÇÃO QUE LISTA AS APOSTAS DO SORTEIO ATUAL///////////////////////////////////////////////
+    // FUNÇÃO QUE LISTA AS APOSTAS DO SORTEIO
+    // ATUAL///////////////////////////////////////////////
     public List<String> listarApostas() {
         // pega todas as apostas do sorteio atual e converte para um array de string
         List<Aposta> listaApostas = sorteioAtual.getListaApostas();
@@ -109,7 +113,8 @@ public class ServicoSorteio {
         return listaApostasString;
     }
 
-    //FUNÇÃO QUE ENCERRA A FASE DE APOSTAS E SORTEIA OS PRIMEIROS 5// NUMEROS///////////////////////////
+    // FUNÇÃO QUE ENCERRA A FASE DE APOSTAS E SORTEIA OS PRIMEIROS 5//
+    // NUMEROS///////////////////////////
 
     public String encerrarApostas() {
 
@@ -129,6 +134,8 @@ public class ServicoSorteio {
             numerosSorteados.add(Sorteador.sortearNumero(numerosSorteados));
         }
         sorteioAtual.setNumerosSorteados(numerosSorteados);
+        // salva o contexto do sorteio
+        repSorteio.save(sorteioAtual);
         // retorna os numeros sorteados
         return "Sorteio fechado, números sorteados: " + numerosSorteados;
     }
@@ -142,7 +149,7 @@ public class ServicoSorteio {
 
         // se ainda ta na fase de apostas
         if (sorteioAtual.getAberto()) {
-            
+
             return "Ainda em fase de apostas.";
         }
 
@@ -152,92 +159,79 @@ public class ServicoSorteio {
         while (!sorteioAtual.procurarVencedores() && count < 25) {
             sorteioAtual.adicionarNumeroResultado(Sorteador.sortearNumero(sorteioAtual.getNumerosSorteados()));
             count++;
+        }
+
+        // salva o contexto do sorteio
+        repSorteio.save(sorteioAtual);
+
+        // Se tiver vencedor
+        if (sorteioAtual.getQtdVencedores() > 0) {
             return "Vencedor Encontrado!";
-            
         }
         return "Não há vencedores.";
     }
-    /////////////////////////////////////////
 
-    // // Transforma a saída para String genérica
-    // ArrayList<Aposta> listaVencedores = sorteioAtual.getListaVencedores();
-    // ArrayList<String> listaVencedoresString = listaVencedores.stream()
-    // .sorted(Comparator.comparing(aposta -> aposta.getNomeUsuario())) //coloca em
-    // ordem alfabetica
-    // .map(Object::toString) //transforma pra string pra so assim mandar como
-    // resposta.
-    // .collect(Collectors.toCollection(ArrayList::new));
-    // if(listaVencedoresString.isEmpty()){
-    // listaVencedoresString.add("NÃO HÁ VENCEDORES!");
-    // }
-    // return listaVencedoresString;
-    // }
-
-    // public ArrayList<String> listarApostaUsuario(String cpf) {
-    // ArrayList<Aposta> listaApostas = sorteioAtual.getListaApostas();
-
-    // // Filtra a lista pelo cpf e converte pra string
-    // ArrayList<String> apostasDoUsuario = listaApostas.stream()
-    // .filter(aposta -> aposta.getCpfUsuario().equals(cpf))
-    // .map(aposta -> aposta.toString())
-    // .collect(Collectors.toCollection(ArrayList::new));
-
-    // if(apostasDoUsuario.isEmpty()){
-    // apostasDoUsuario.add("NÃO HÁ APOSTAS DO USUÁRIO " + cpf);
-    // }
-    // return apostasDoUsuario;
-    // }
-
-    // public Map<Integer, Integer> exibirRelatorio() {
-    // // cria um mapa zerado com 1 a 50
-    // Map<Integer, Integer> relatorio = new HashMap<>();
-    // for (int i = 1; i < 51; i++) {
-    // relatorio.put(i, 0);
-
-    // }
-    // // busca a lista de apostas
-    // ArrayList<Aposta> listaApostas = sorteioAtual.getListaApostas();
-    // for (Aposta aposta : listaApostas) {
-    // // busca os numeros apostados em cada aposta
-    // Set<Integer> numerosApostados = aposta.getNumerosApostados();
-    // // pra cada numero apostado, atualiza a contagem dele no relatorio
-    // for (Integer numero : numerosApostados) {
-    // relatorio.put(numero, relatorio.get(numero) + 1);
-    // }
-    // }
-
-    // return relatorio;
-    // }
-
+    ////////////////////////////////////////////////////////////////////
+    // FUNCOES QUE FORMAM O MENU DE APURACAO
     public Set<Integer> buscarSorteados() {
         return sorteioAtual.getNumerosSorteados();
     }
 
-    public int buscarQuantidadeRodadas() {
+    public int buscarQtdRodadas() {
         return sorteioAtual.getNumerosSorteados().size() - 5;
     }
 
-    // public int buscarQuantidadeVencedores() {
-    // return sorteioAtual.getListaVencedores().size();
-    // }
+    public int buscarQtdVencedores() {
+        return sorteioAtual.getQtdVencedores();
+    }
 
-    // public ArrayList<String> listarVencedores() {
-    // // Transforma a saída para String genérica
-    // ArrayList<Aposta> listaVencedores = sorteioAtual.getListaVencedores();
-    // ArrayList<String> listaVencedoresString = listaVencedores.stream()
-    // .sorted(Comparator.comparing(aposta -> aposta.getNomeUsuario())) //coloca em
-    // ordem alfabetica
-    // .map(Object::toString) //transforma pra string pra so assim mandar como
-    // resposta.
-    // .collect(Collectors.toCollection(ArrayList::new));
-    // if(listaVencedoresString.isEmpty()){
-    // listaVencedoresString.add("NÃO HÁ VENCEDORES!");
-    // }
-    // return listaVencedoresString;
-    // }
+    //////////////////////////////////////////////////////////////////////
+    // FUNCAO QUE GERA O RELATORIO
 
+    public Map<Integer, Integer> exibirRelatorio() {
+        // Cria um mapa de 1 a 50
+        Map<Integer, Integer> mapaDeRepeticoes = new HashMap<>();
+        for (int i = 1; i < 51; i++) {
+            mapaDeRepeticoes.put(i, 0);
+        }
+        // Pega a lista de apostas
+        List<Aposta> apostas = sorteioAtual.getListaApostas();
+        // pra cada aposta pega o conjunto de numeros
+        for (Aposta aposta : apostas) {
+            Set<Integer> numeros = aposta.getNumerosApostados();
+            // pra cada numero, atualiza a contagem no mapa
+            for (Integer numero : numeros) {
+                mapaDeRepeticoes.put(numero, mapaDeRepeticoes.get(numero) + 1);
+            }
+        }
+        return mapaDeRepeticoes;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    // FUNCAO QUE BUSCA A LISTA DE APOSTAS VENCEDORAS DO SORTEIO
+    public ArrayList<String> listarVencedores() {
+
+        List<Aposta> apostas = sorteioAtual.getListaApostas();
+        List<Aposta> apostasVencedoras = apostas.stream()
+                .filter(Aposta::getVencedora)
+                .sorted(Comparator.comparing(Aposta::getNomeUsuario))
+                .collect(Collectors.toList());
+
+        ArrayList<String> apostasVencedorasString = new ArrayList<>();
+        for (Aposta aposta : apostasVencedoras) {
+            apostasVencedorasString.add(aposta.toString());
+        }
+        if (apostasVencedorasString.isEmpty()) {
+            apostasVencedorasString.add("Não há vencedores");
+        }
+        return apostasVencedorasString;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    // FUNÇÃO QUE MANIPULA O RESULTADO PARA QUE SEJA 1,2,3,4,5
     public void manipular() {
         sorteioAtual.manipularResultado();
+        repSorteio.save(sorteioAtual);
     }
 
 }

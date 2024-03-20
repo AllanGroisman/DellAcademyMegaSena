@@ -1,8 +1,6 @@
 package com.allangroisman.Interface;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,20 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
 import com.allangroisman.Aplicacao.FaseDeApostas.ApostaSurpresinha_UC;
 import com.allangroisman.Aplicacao.FaseDeApostas.CriarAposta_UC;
 import com.allangroisman.Aplicacao.FaseDeApostas.ListarTodasApostas_UC;
-import com.allangroisman.Aplicacao.FaseDeApuracao.ApurarSorteio_UC;
-import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQuantidadeRodadas_UC;
-import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarSorteados_UC;
-import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQuantidadeVencedores_UC;
-import com.allangroisman.Aplicacao.FaseDeApuracao.ExibirRelatorio_UC;
-import com.allangroisman.Aplicacao.FaseDeApuracao.ListarVencedores_UC;
-import com.allangroisman.Aplicacao.FaseDeApuracao.Manipular_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.EncerrarApostas_UC;
 import com.allangroisman.Aplicacao.FaseDeEntrada.CriarSorteio_UC;
 

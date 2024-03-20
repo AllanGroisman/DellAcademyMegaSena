@@ -5,11 +5,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,9 +25,7 @@ public class Aposta {
     
     private boolean vencedora = false;
     
-    public Aposta() {
-    }
-
+   
     private String nomeUsuario;
     private String cpfUsuario; //pode ser comum entre apostas
 
@@ -46,12 +41,9 @@ public class Aposta {
         this.numerosApostados = numerosApostados;
         System.out.println("NOVA APOSTA CRIADA" + this.id);
     }
+    public Aposta() {
+    }
 
-    // //Gets
-    // public long getIdOriginal() {
-    //     return idOriginal;
-    // }
-   
     public String getNomeUsuario() {
         return nomeUsuario;
     }
@@ -64,11 +56,6 @@ public class Aposta {
         return numerosApostados;
     }
 
-    @Override
-    public String toString() {
-        return "Nome: " + nomeUsuario + ". Cpf:" + cpfUsuario + ". Aposta " +". Números apostados: " + numerosApostados + "\n";
-    }
-
     public void setSorteio(Sorteio sorteioAtual) {
         this.sorteio = sorteioAtual;
     }
@@ -79,6 +66,11 @@ public class Aposta {
 
     public boolean getVencedora() {
         return vencedora;
+    }
+    @Override
+    public String toString() {
+        return "Aposta: " + id + ", Usuário: " + nomeUsuario + ", CPF: " + cpfUsuario
+                + ", Números: " + numerosApostados + ".";
     }
 
     

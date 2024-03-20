@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.allangroisman.Aplicacao.FaseDeApuracao.ApurarSorteio_UC;
-import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQuantidadeRodadas_UC;
-import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQuantidadeVencedores_UC;
+import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQtdRodadas_UC;
+import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarQtdVencedores_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.BuscarSorteados_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.ExibirRelatorio_UC;
 import com.allangroisman.Aplicacao.FaseDeApuracao.ListarVencedores_UC;
@@ -19,28 +19,30 @@ import com.allangroisman.Aplicacao.FaseDeApuracao.Manipular_UC;
 @RequestMapping("/")
 public class ControllerApuracao {
 
-    ApurarSorteio_UC apurarSorteio_UC; // apura e sorteia numeros ate ter um vencedor
+    ApurarSorteio_UC apurarSorteio_UC; // Implementado - apura e sorteia numeros ate ter um vencedor e retorna se há ou
+                                       // nao vencedores
 
-    BuscarSorteados_UC buscarSorteados_UC; // busca os numeros sorteados
-    BuscarQuantidadeRodadas_UC buscarQuantidadeRodadas_UC; // busca quantas rodadas teve ate sair o vencedor
-    BuscarQuantidadeVencedores_UC buscarQuantidadeVencedores_UC; // busca a lista de vencedores
-    ExibirRelatorio_UC exibirRelatorio_UC; // gera o relatorio de todos os numeros apostados
+    BuscarSorteados_UC buscarSorteados_UC; // Implementado - busca os numeros sorteados
+    BuscarQtdRodadas_UC buscarQtdRodadas_UC; // Implementado - busca quantas rodadas teve ate sair o vencedor
+    BuscarQtdVencedores_UC buscarQtdVencedores_UC; // Implementado - busca a quantidade de vencedores
+
+    ExibirRelatorio_UC exibirRelatorio_UC; // Implementado - gera o relatorio de todos os numeros apostados FALTA SORT
     ListarVencedores_UC listarVencedores_UC; // busca a lista de vencedores
 
     Manipular_UC manipular_UC;
 
     @Autowired
-    public ControllerApuracao(ApurarSorteio_UC apurarSorteio_UC, ExibirRelatorio_UC exibirRelatorio_UC,
-            BuscarSorteados_UC buscarSorteados_UC,
-            BuscarQuantidadeRodadas_UC buscarQuantidadeRodadas_UC,
-            BuscarQuantidadeVencedores_UC buscarQuantidadeVencedores_UC,
+    public ControllerApuracao(ApurarSorteio_UC apurarSorteio_UC, BuscarSorteados_UC buscarSorteados_UC,
+            BuscarQtdRodadas_UC buscarQtdRodadas_UC,
+            BuscarQtdVencedores_UC buscarQtdVencedores_UC,
+            ExibirRelatorio_UC exibirRelatorio_UC,
             ListarVencedores_UC listarVencedores_UC, Manipular_UC manipular_UC) {
 
         this.apurarSorteio_UC = apurarSorteio_UC;
-        
+
         this.buscarSorteados_UC = buscarSorteados_UC;
-        this.buscarQuantidadeRodadas_UC = buscarQuantidadeRodadas_UC;
-        this.buscarQuantidadeVencedores_UC = buscarQuantidadeVencedores_UC;
+        this.buscarQtdRodadas_UC = buscarQtdRodadas_UC;
+        this.buscarQtdVencedores_UC = buscarQtdVencedores_UC;
         this.listarVencedores_UC = listarVencedores_UC;
         this.exibirRelatorio_UC = exibirRelatorio_UC;
         this.manipular_UC = manipular_UC;
@@ -54,8 +56,8 @@ public class ControllerApuracao {
     public String apurarSorteio(Model model) {
         apurarSorteio_UC.run();
         model.addAttribute("sorteados", buscarSorteados_UC.run()); // numeros sorteados
-        model.addAttribute("rodadas", buscarQuantidadeRodadas_UC.run()); // quantidade de rodadas
-        model.addAttribute("vencedores", buscarQuantidadeVencedores_UC.run()); // quantidade de vencedores
+        model.addAttribute("rodadas", buscarQtdRodadas_UC.run()); // quantidade de rodadas
+        model.addAttribute("vencedores", buscarQtdVencedores_UC.run()); // quantidade de vencedores
         return "apuracao/3apuracao";
     }
 
@@ -63,8 +65,8 @@ public class ControllerApuracao {
     @GetMapping("/exibirapuracao")
     public String exibirApuracao(Model model) {
         model.addAttribute("sorteados", buscarSorteados_UC.run()); // numeros sorteados
-        model.addAttribute("rodadas", buscarQuantidadeRodadas_UC.run()); // quantidade de rodadas
-        model.addAttribute("vencedores", buscarQuantidadeVencedores_UC.run()); // quantidade de vencedores
+        model.addAttribute("rodadas", buscarQtdRodadas_UC.run()); // quantidade de rodadas
+        model.addAttribute("vencedores", buscarQtdVencedores_UC.run()); // quantidade de vencedores
         return "apuracao/3apuracao";
     }
 

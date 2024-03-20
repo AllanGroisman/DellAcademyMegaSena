@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import com.allangroisman.Dominio.Servicos.ServicoSorteio;
 
 @Component
-public class BuscarQuantidadeRodadas_UC {
+public class BuscarQtdRodadas_UC {
 
     @Autowired
     private ServicoSorteio servicoSorteio; //Serviço que trata de criar e gerenciar apostas
     
     public int run() {
-        return servicoSorteio.buscarQuantidadeRodadas();
+        return servicoSorteio.buscarQtdRodadas();
     }
 
 }

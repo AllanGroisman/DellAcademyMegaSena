@@ -19,10 +19,13 @@
         .container {
             background-color: #444444;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 0px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             text-align: center; 
-            width: 80%;
+            width: 70%;
+            height: 90%;
+            font-size: small;
+            overflow-y: auto;
         }
         button {
             padding: 20px;
@@ -41,7 +44,8 @@
 </head>
 <body>
     <div class="container">
-        <h2>Lista de Números Sorteados:</h2>
+        <img src="/images/logoDell.png" alt="Logo da Dell" width="100">
+        <h1>Lista de Números Sorteados:</h1>
         <h1 th:text="${sorteados}">sorteados</h1> 
         <h2>Quantidade de Rodadas:</h2>
         <h1 th:text="${rodadas}">rodadas</h1>

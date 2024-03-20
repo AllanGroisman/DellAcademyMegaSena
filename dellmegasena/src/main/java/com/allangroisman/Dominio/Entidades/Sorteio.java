@@ -48,12 +48,6 @@ public class Sorteio {
         return aberto;
     }
 
-    // FUNÇÕES DE APOSTA
-    // adiciona uma nova aposta
-    // public void adicionarAposta(Aposta novaAposta) {
-    // listaApostas.add(novaAposta);
-    // }
-
     // FUNÇÕES DE SORTEIO/APURAÇÃO
     // fecha o sorteio para novas apostas
     public void fechar() {
@@ -67,7 +61,6 @@ public class Sorteio {
 
     public void manipularResultado() {
         Set<Integer> numerosManipulados = Set.of(1, 2, 3, 4, 5);
-
         this.numerosSorteados = numerosManipulados;
     }
 
@@ -92,22 +85,14 @@ public class Sorteio {
             if(this.numerosSorteados.containsAll(aposta.getNumerosApostados())){
                 aposta.setVencedora();
                 this.qtdVencedores++;
-                return true;
             }
         }
+        if(qtdVencedores > 0){return true;}
         return false;
     }
 
     public int getQtdVencedores() {
         return this.qtdVencedores;
     }
-
-    // @Override
-    // public String toString() {
-    // return "Sorteio [id=" + idOriginal + ", dataCriacao=" + dataCriacao + ",
-    // listaApostas=" + listaApostas
-    // + ", numerosSorteados=" + numerosSorteados + ", ganhadores=" +
-    // listaVencedores + ", quantidade numeros: "+ numerosSorteados.size() +"]";
-    // }
 
 }
