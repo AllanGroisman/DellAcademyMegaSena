@@ -29,4 +29,11 @@ public class RepApostaJPA implements IRepAposta {
         return repJPA.findAll();
     }
 
+    @Override
+    public Long count() {
+        return repJPA.count();
+    }
+
+    
+
 }

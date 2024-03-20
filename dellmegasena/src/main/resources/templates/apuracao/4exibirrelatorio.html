@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apuração</title>
+    <title>ListarVencedores</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
@@ -21,8 +21,7 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            color: #ffffff;
+            text-align: center; 
             width: 80%;
             max-width: 800px;
             height: auto;
@@ -42,38 +41,28 @@
         button:hover {
             background-color: #6c757d;
         }
-        table {
-            width: 100%; /* Faz a tabela preencher o container */
-            border-collapse: collapse; /* Remove espaços entre as células */
+        ul {
+            
+            list-style-type: none;
+            
+            padding: 0;
+           
         }
-        th, td {
-            border: 1px solid #ddd; /* Adiciona bordas às células */
-            padding: 8px; /* Adiciona preenchimento para melhor legibilidade */
-            text-align: left; /* Alinha o texto à esquerda */
-        }
-        th {
-            background-color: #555; /* Cor de fundo para cabeçalhos de tabela */
-            color: #ffffff; /* Cor do texto para cabeçalhos de tabela */
+
+        li {
+            text-align: center;
+            
+            margin-bottom: 5px;
+            
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Relatório:</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Número</th>
-                    <th>Repetições</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="relatorio : ${relatorio}">
-                    <td th:text="${relatorio.key}">Número</td>
-                    <td th:text="${relatorio.value}">Repetições</td>
-                </tr>
-            </tbody>
-        </table>
+        <ul>
+            <li th:each="relatorio : ${relatorio}" th:text="${relatorio}">Lista de Apostas</li>
+        </ul>
         <button onclick="window.location.href='/exibirapuracao'">Voltar</button>
     </div>
 </body>

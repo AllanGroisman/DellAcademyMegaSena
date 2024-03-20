@@ -15,9 +15,6 @@ import jakarta.persistence.ManyToOne;
 public class Aposta {
     @Id
     private long id; //começa em 1000
-    private static long countId = 1000;
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sorteio_id")
@@ -33,9 +30,8 @@ public class Aposta {
 
     //Construtor padrão
     @Autowired
-    public Aposta(String nomeUsuario, String cpf, Set<Integer> numerosApostados) {
-        this.id = countId; //atribui o proximo id
-        countId++; //acrescenta 1 para o prox sorteio
+    public Aposta(Long id, String nomeUsuario, String cpf, Set<Integer> numerosApostados) {
+        this.id = id; //atribui o proximo id
         this.nomeUsuario = nomeUsuario;
         this.cpfUsuario = cpf;
         this.numerosApostados = numerosApostados;
@@ -72,9 +68,5 @@ public class Aposta {
         return "Aposta: " + id + ", Usuário: " + nomeUsuario + ", CPF: " + cpfUsuario
                 + ", Números: " + numerosApostados + ".";
     }
-
-    
-
-   
     
 }

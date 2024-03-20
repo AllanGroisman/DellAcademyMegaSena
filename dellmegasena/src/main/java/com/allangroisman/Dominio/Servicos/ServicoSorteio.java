@@ -1,12 +1,15 @@
 package com.allangroisman.Dominio.Servicos;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.allangroisman.Dominio.Entidades.Aposta;
 import com.allangroisman.Dominio.Entidades.Sorteio;
+import com.allangroisman.Dominio.Funcoes.NumRelatorio;
 import com.allangroisman.Dominio.Funcoes.Sorteador;
 import com.allangroisman.Dominio.Interface.IRepAposta;
 import com.allangroisman.Dominio.Interface.IRepSorteio;
@@ -74,7 +78,8 @@ public class ServicoSorteio {
 
         // Caso a aposta seja inedita, cria uma
         // nova////////////////////////////////////////////////////////
-        Aposta novaAposta = new Aposta(nome, cpf, listaNumeros);
+        Long id = repApostas.count() + 1000;
+        Aposta novaAposta = new Aposta(id, nome, cpf, listaNumeros);
         // informa qual seu sorteio
         novaAposta.setSorteio(sorteioAtual);
         // adiciona ela na listas do sorteio
@@ -186,12 +191,13 @@ public class ServicoSorteio {
     //////////////////////////////////////////////////////////////////////
     // FUNCAO QUE GERA O RELATORIO
 
-    public Map<Integer, Integer> exibirRelatorio() {
+    public List<String> exibirRelatorio() {
         // Cria um mapa de 1 a 50
         Map<Integer, Integer> mapaDeRepeticoes = new HashMap<>();
         for (int i = 1; i < 51; i++) {
             mapaDeRepeticoes.put(i, 0);
         }
+
         // Pega a lista de apostas
         List<Aposta> apostas = sorteioAtual.getListaApostas();
         // pra cada aposta pega o conjunto de numeros
@@ -202,7 +208,27 @@ public class ServicoSorteio {
                 mapaDeRepeticoes.put(numero, mapaDeRepeticoes.get(numero) + 1);
             }
         }
-        return mapaDeRepeticoes;
+
+        ArrayList<NumRelatorio> listaPares = new ArrayList<>();
+        for (int i = 1; i < 51; i++) {
+            NumRelatorio novoPar = new NumRelatorio(i, mapaDeRepeticoes.get(i));   
+            listaPares.add(novoPar); 
+        }
+
+        List<NumRelatorio> listaOrdenada = listaPares.stream()
+        .sorted((nr1, nr2) -> Integer.compare(nr2.getRepeticoes(), nr1.getRepeticoes())) // Ordenação decrescente pelo número de repetições
+        .collect(Collectors.toList());
+
+        ArrayList<String> listaString = new ArrayList<>();
+        listaString.add("Número  | Repetições");
+        for (NumRelatorio numRelatorio : listaOrdenada) {
+            if(numRelatorio.getRepeticoes()!= 0){
+                listaString.add(numRelatorio.getNumero() + " | " + numRelatorio.getRepeticoes());
+            }
+        }
+        
+        return listaString;
+
     }
 
     //////////////////////////////////////////////////////////////////////
