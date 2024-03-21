@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif; 
-            background-color: #ffffff; 
+            background-color: #323232; 
             color: #ffffff; 
             display: flex;
             justify-content: center;
@@ -67,7 +67,7 @@
             <input type="text" id="cpf" placeholder="CPF: 123.456.789-10" required>
             
             <div class="buttons">
-                <button type="button" class="voltar" onclick="window.location.href='/menuSorteio'">Voltar</button>
+                <button type="button" class="voltar" onclick="window.location.href='/menusorteio'">Voltar</button>
                 <button type="submit" class="enviar">Enviar</button>
             </div>
         </form>
@@ -75,7 +75,7 @@
 
     <script>
         document.getElementById('apostaFormulario').onsubmit = function(e) {
-            e.preventDefault(); //impede erro
+            e.preventDefault(); //impede erro ???
 
             // Pega os valores do formulario
             var nome = document.getElementById('nome').value;

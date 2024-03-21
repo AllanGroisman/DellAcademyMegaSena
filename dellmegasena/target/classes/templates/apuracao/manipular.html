@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exibir Relatorio</title>
+    <title>Manipular</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
@@ -22,11 +22,8 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             text-align: center; 
-            width: 80%;
-            max-width: 800px;
-            height: auto;
-            max-height: 70vh;
-            overflow-y: auto;
+            width: 50%;
+            font-size:x-small;
         }
         button {
             padding: 10px;
@@ -41,29 +38,12 @@
         button:hover {
             background-color: #6c757d;
         }
-        ul {
-            
-            list-style-type: none;
-            
-            padding: 0;
-           
-        }
-
-        li {
-            text-align: center;
-            margin-bottom: 5px;
-            padding: 3px;
-            border-bottom: 1px solid #ffffff;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Relatório (decrescente):</h2>
-        <ul>
-            <li th:each="relatorio : ${relatorio}" th:text="${relatorio}">Lista de Apostas</li>
-        </ul>
-        <button onclick="window.location.href='/exibirapuracao'">Voltar</button>
+        <h1>Sorteio manipulado, numeros sorteados são [1,2,3,4,5]</h1>
+        <button onclick="window.location.href='/apuracao'">Voltar</button>
     </div>
 </body>
 </html>

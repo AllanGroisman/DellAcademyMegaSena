@@ -97,8 +97,12 @@ public class Sorteio {
 
     @Override
     public String toString() {
+        String status = "Fechado";
+        if(aberto){
+            status = "Aberto";
+        }
         return "Sorteio: " + id + ", Data: " + dataCriacao + " Resultado: "
-                + numerosSorteados + ", Status: " + aberto + ", Qtd Vencedores: " + qtdVencedores;
+                + numerosSorteados + ", Status: " + status + ", Qtd Vencedores: " + qtdVencedores +".";
     }
 
 }

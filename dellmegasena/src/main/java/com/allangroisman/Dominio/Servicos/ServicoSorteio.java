@@ -86,7 +86,7 @@ public class ServicoSorteio {
         sorteioAtual.addAposta(novaAposta);
         // atualiza o sorteio no db
         repSorteio.save(sorteioAtual);
-        return "Aposta Criada com Sucesso. " + novaAposta.toString();
+        return "Aposta Criada com Sucesso. || " + novaAposta.toString();
     }
 
     // FUNÇÃO QUE ESCOLHE OS NUMEROS DA APOSTA
@@ -123,7 +123,7 @@ public class ServicoSorteio {
 
         // se ja esta com o sorteio atual fechado, apenas informa os numeros sorteados
         if (!sorteioAtual.getAberto()) {
-            return "Sorteio fechado, números sorteados: " + sorteioAtual.getNumerosSorteados();
+            return "Sorteio fechado  || Números sorteados: " + sorteioAtual.getNumerosSorteados();
         }
 
         // fecha o sorteio para novas apostas
@@ -140,7 +140,7 @@ public class ServicoSorteio {
         // salva o contexto do sorteio
         repSorteio.save(sorteioAtual);
         // retorna os numeros sorteados
-        return "Sorteio fechado, números sorteados: " + numerosSorteados;
+        return "Sorteio fechado  || Números sorteados: " + numerosSorteados;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,10 +158,10 @@ public class ServicoSorteio {
 
         // tenta procurar vencedores com os numeros atuais, se não há adiciona mais um
         // numero e tenta novamente ate 25x
-        int count = 0;
-        while (!sorteioAtual.procurarVencedores() && count < 25) {
+        // int count = 0;
+        while (!sorteioAtual.procurarVencedores() && sorteioAtual.getNumerosSorteados().size() < 30) {
             sorteioAtual.adicionarNumeroResultado(Sorteador.sortearNumero(sorteioAtual.getNumerosSorteados()));
-            count++;
+            // count++;
         }
 
         // salva o contexto do sorteio
@@ -211,22 +211,24 @@ public class ServicoSorteio {
 
         ArrayList<NumRelatorio> listaPares = new ArrayList<>();
         for (int i = 1; i < 51; i++) {
-            NumRelatorio novoPar = new NumRelatorio(i, mapaDeRepeticoes.get(i));   
-            listaPares.add(novoPar); 
+            NumRelatorio novoPar = new NumRelatorio(i, mapaDeRepeticoes.get(i));
+            listaPares.add(novoPar);
         }
 
         List<NumRelatorio> listaOrdenada = listaPares.stream()
-        .sorted((nr1, nr2) -> Integer.compare(nr2.getRepeticoes(), nr1.getRepeticoes())) // Ordenação decrescente pelo número de repetições
-        .collect(Collectors.toList());
+                .sorted((nr1, nr2) -> Integer.compare(nr2.getRepeticoes(), nr1.getRepeticoes())) // Ordenação
+                                                                                                 // decrescente pelo
+                                                                                                 // número de repetições
+                .collect(Collectors.toList());
 
         ArrayList<String> listaString = new ArrayList<>();
         listaString.add("Número  | Repetições");
         for (NumRelatorio numRelatorio : listaOrdenada) {
-            if(numRelatorio.getRepeticoes()!= 0){
+            if (numRelatorio.getRepeticoes() != 0) {
                 listaString.add(numRelatorio.getNumero() + " | " + numRelatorio.getRepeticoes());
             }
         }
-        
+
         return listaString;
 
     }
@@ -258,8 +260,32 @@ public class ServicoSorteio {
         repSorteio.save(sorteioAtual);
     }
 
+    // Função que finaliza e salva o Sorteio.
     public void encerrarSorteio() {
         repSorteio.save(sorteioAtual);
     }
 
+    public Boolean receberPremio(String cpf) {
+        if (sorteioAtual.getQtdVencedores() == 0) {
+            return false;
+        }
+
+        List<Aposta> apostas = sorteioAtual.getListaApostas();
+        for (Aposta aposta : apostas) {
+            if (aposta.getVencedora() && aposta.getCpfUsuario().equals(cpf)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String buscarNome(String cpf) {
+        List<Aposta> apostas = sorteioAtual.getListaApostas();
+        for (Aposta aposta : apostas) {
+            if (aposta.getCpfUsuario().equals(cpf)) {
+                return aposta.getNomeUsuario();
+            }
+        }
+        return "Nome não encontrado";
+    }
 }

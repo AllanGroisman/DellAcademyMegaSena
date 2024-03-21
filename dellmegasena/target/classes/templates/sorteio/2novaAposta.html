@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif; 
-            background-color: #ffffff; 
+            background-color: #323232; 
             color: #ffffff; 
             display: flex;
             justify-content: center;
@@ -38,14 +38,16 @@
         .buttons {
             display: flex;
             justify-content: space-between; 
+            cursor:pointer;
         }
         button {
             flex-grow: 1; 
             margin: 10px; 
+            cursor:pointer;
         }
         .enviar {
             background-color: #0672CB; 
-            
+            cursor:pointer;
         }
         .enviar:hover {
             background-color: #0672CB;
@@ -55,6 +57,13 @@
             cursor:pointer;
         }
         .voltar:hover {
+            background-color: #6c757d;
+        }
+        .surpresinha {
+            background-color: #6c757d; 
+            cursor:pointer;
+        }
+        .surpresinha:hover {
             background-color: #6c757d;
         }
     </style>
@@ -72,7 +81,7 @@
             <input type="number" id="n5" placeholder="Número 5" min="1" max="50" required>
             <div class="buttons">
                 <button type="button" class="voltar" onclick="window.location.href='/menusorteio'">Voltar</button>
-                <button onclick="window.location.href='/surpresinha'">Surpresinha</button>
+                <button type="button" class="surpresinha" onclick="window.location.href='/surpresinha'">Surpresinha</button>
                 <button type="submit" class="enviar">Enviar</button>
             </div>
         </form>
