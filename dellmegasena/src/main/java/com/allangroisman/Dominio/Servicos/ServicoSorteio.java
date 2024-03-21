@@ -222,7 +222,7 @@ public class ServicoSorteio {
                 .collect(Collectors.toList());
 
         ArrayList<String> listaString = new ArrayList<>();
-        listaString.add("Número  | Repetições");
+        listaString.add("Número  | Qtd Apostas");
         for (NumRelatorio numRelatorio : listaOrdenada) {
             if (numRelatorio.getRepeticoes() != 0) {
                 listaString.add(numRelatorio.getNumero() + " | " + numRelatorio.getRepeticoes());
