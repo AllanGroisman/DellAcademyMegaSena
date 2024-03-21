@@ -65,8 +65,8 @@ public class Aposta {
     }
     @Override
     public String toString() {
-        return "Aposta: " + id + " Sorteio: "+ sorteio.getId() +", Usuário: " + nomeUsuario + ", CPF: " + cpfUsuario
-                + ", Números: " + numerosApostados + ".";
+        return "Aposta: " + id + ", Sorteio: "+ sorteio.getId() +", Usuário: " + nomeUsuario + ", CPF: " + cpfUsuario
+                + ", Números: " + numerosApostados.stream().sorted().toList() + ".";
     }
     
 }

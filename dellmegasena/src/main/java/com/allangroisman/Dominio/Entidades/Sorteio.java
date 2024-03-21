@@ -101,8 +101,9 @@ public class Sorteio {
         if(aberto){
             status = "Aberto";
         }
+        
         return "Sorteio: " + id + ", Data: " + dataCriacao + " Resultado: "
-                + numerosSorteados + ", Status: " + status + ", Qtd Vencedores: " + qtdVencedores +".";
+                + numerosSorteados.stream().sorted().toList() + ", Status: " + status + ", Qtd Vencedores: " + qtdVencedores +".";
     }
 
 }

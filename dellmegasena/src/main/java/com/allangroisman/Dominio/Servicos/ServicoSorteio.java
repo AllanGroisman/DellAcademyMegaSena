@@ -86,7 +86,7 @@ public class ServicoSorteio {
         sorteioAtual.addAposta(novaAposta);
         // atualiza o sorteio no db
         repSorteio.save(sorteioAtual);
-        return "Aposta Criada com Sucesso. || " + novaAposta.toString();
+        return "Aposta Criada com Sucesso! " + novaAposta.toString();
     }
 
     // FUNÇÃO QUE ESCOLHE OS NUMEROS DA APOSTA
@@ -140,7 +140,7 @@ public class ServicoSorteio {
         // salva o contexto do sorteio
         repSorteio.save(sorteioAtual);
         // retorna os numeros sorteados
-        return "Sorteio fechado  || Números sorteados: " + numerosSorteados;
+        return "Sorteio fechado  || Números sorteados: " + numerosSorteados.stream().sorted().toList();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -176,8 +176,8 @@ public class ServicoSorteio {
 
     ////////////////////////////////////////////////////////////////////
     // FUNCOES QUE FORMAM O MENU DE APURACAO
-    public Set<Integer> buscarSorteados() {
-        return sorteioAtual.getNumerosSorteados();
+    public List<Integer> buscarSorteados() {
+        return sorteioAtual.getNumerosSorteados().stream().sorted().toList();
     }
 
     public int buscarQtdRodadas() {
