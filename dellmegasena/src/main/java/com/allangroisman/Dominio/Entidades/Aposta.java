@@ -65,7 +65,7 @@ public class Aposta {
     }
     @Override
     public String toString() {
-        return "Aposta: " + id + ", Usuário: " + nomeUsuario + ", CPF: " + cpfUsuario
+        return "Aposta: " + id + " Sorteio: "+ sorteio.getId() +", Usuário: " + nomeUsuario + ", CPF: " + cpfUsuario
                 + ", Números: " + numerosApostados + ".";
     }
     
